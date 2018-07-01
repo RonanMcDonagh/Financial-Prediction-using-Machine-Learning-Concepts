@@ -1,65 +1,53 @@
-import sqlite3 
-9 import openpyxl 
-10 from openpyxl import load_workbook 
-11 import re 
-12 
- 
-13 def slugify(text, lower=1): 
-14     if lower == 1: 
-15         text = text.strip().lower() 
-16     text = re.sub(r'[^\w _-]+', '', text) 
-17     text = re.sub(r'[- ]+', '_', text) 
-18     return text 
-19 
- 
-20 con = sqlite3.connect('FinancialInstrumentData.db') 
-21 
- 
-22 wb = load_workbook(filename=r'C:\Users\ronan\OneDrive\Documents\Ronan Thesis\FinancialInstrumentData.xlsx') 
-23 
- 
-24 sheets = wb.get_sheet_names() 
-25 
- 
-26 for sheet in sheets: 
-27     ws = wb[sheet]  
-28 
- 
-29     columns= [] 
-30     query = 'CREATE TABLE ' + str(slugify(sheet)) + '(ID INTEGER PRIMARY KEY AUTOINCREMENT' 
-31     for row in next(ws.rows): 
-32         query += ', ' + slugify(row.value) + ' TEXT' 
-33         columns.append(slugify(row.value)) 
-34     query += ');' 
-35 
- 
-36     con.execute(query) 
-37 
- 
-38     tup = [] 
-39     for i, rows in enumerate(ws): 
-40         tuprow = [] 
-41         if i == 0: 
-42             continue 
-43         for row in rows: 
-44             tuprow.append(str(row.value).strip()) if str(row.value).strip() != 'None' else tuprow.append('') 
-45         tup.append(tuple(tuprow)) 
-46 
- 
-47 
- 
-48     insQuery1 = 'INSERT INTO ' + str(slugify(sheet)) + '(' 
-49     insQuery2 = '' 
-50     for col in columns: 
-51         insQuery1 += col + ', ' 
-52         insQuery2 += '?, ' 
-53     insQuery1 = insQuery1[:-2] + ') VALUES(' 
-54     insQuery2 = insQuery2[:-2] + ')' 
-55     insQuery = insQuery1 + insQuery2 
-56 
- 
-57     con.executemany(insQuery, tup) 
-58     con.commit() 
-59 
- 
-60 con.close() 
+import sqlite3
+import openpyxl
+from openpyxl import load_workbook
+import re
+
+def slugify(text, lower=1):
+    if lower == 1:
+        text = text.strip().lower()
+    text = re.sub(r'[^\w _-]+', '', text)
+    text = re.sub(r'[- ]+', '_', text)
+    return text
+
+con = sqlite3.connect('FinancialInstrumentData.db')
+
+wb = load_workbook(filename=r'C:\Users\ronan\OneDrive\Documents\Ronan Thesis\FinancialInstrumentData.xlsx')
+
+sheets = wb.get_sheet_names()
+
+for sheet in sheets:
+    ws = wb[sheet] 
+
+    columns= []
+    query = 'CREATE TABLE ' + str(slugify(sheet)) + '(ID INTEGER PRIMARY KEY AUTOINCREMENT'
+    for row in next(ws.rows):
+        query += ', ' + slugify(row.value) + ' TEXT'
+        columns.append(slugify(row.value))
+    query += ');'
+
+    con.execute(query)
+
+    tup = []
+    for i, rows in enumerate(ws):
+        tuprow = []
+        if i == 0:
+            continue
+        for row in rows:
+            tuprow.append(str(row.value).strip()) if str(row.value).strip() != 'None' else tuprow.append('')
+        tup.append(tuple(tuprow))
+
+
+    insQuery1 = 'INSERT INTO ' + str(slugify(sheet)) + '('
+    insQuery2 = ''
+    for col in columns:
+        insQuery1 += col + ', '
+        insQuery2 += '?, '
+    insQuery1 = insQuery1[:-2] + ') VALUES('
+    insQuery2 = insQuery2[:-2] + ')'
+    insQuery = insQuery1 + insQuery2
+
+    con.executemany(insQuery, tup)
+    con.commit()
+
+con.close()
