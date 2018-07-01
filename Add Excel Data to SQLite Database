@@ -10,7 +10,7 @@ def slugify(text, lower=1):
     text = re.sub(r'[- ]+', '_', text)
     return text
 
-con = sqlite3.connect('FinancialInstrumentData.db')
+con = sqlite3.connect('TradeData.db')
 
 wb = load_workbook(filename=r'C:\Users\ronan\OneDrive\Documents\Ronan Thesis\FinancialInstrumentData.xlsx')
 
