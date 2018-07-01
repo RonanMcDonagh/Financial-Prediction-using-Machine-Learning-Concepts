@@ -1,8 +1,6 @@
 SELECT  
 
-
-date, 
-
+main.irishequityinstruments.date
 
 CRH_ID_Equity, 
 KYG_ID_Equity, 
@@ -365,7 +363,7 @@ CDGGBE30_Index,
 GCDGIN10_Index, 
 GCDGIN15_Index, 
 GCDGIN20_Index, 
-GCDGIN30_Index 
+GCDGIN30_Index,
  
 CL1_Comdty, 
 NG1_Comdty, 
@@ -404,7 +402,7 @@ ISEQ_Index_T_1,
 ISEQ_Index_T_2, 
 ISEQ_Index_T_3, 
 ISEQ_Index_T_4, 
-ISEQ_Index_T_5 
+ISEQ_Index_T_5,
  
 EURUSD_Curncy, 
 EURJPY_Curncy, 
@@ -420,25 +418,17 @@ EURTRY_Curncy,
 EURPLN_Curncy, 
 EURCZK_Curncy
 
- FROM  indices 
+FROM  indices 
  
 
- Inner JOIN currencyinstruments on currencyinstruments.ID = indices.ID 
- 
+Inner JOIN currencyinstruments on currencyinstruments.ID = indices.ID 
 
- Inner JOIN irishequityinstruments on irishequityinstruments.ID = indices.ID 
- 
+Inner JOIN irishequityinstruments on irishequityinstruments.ID = indices.ID
 
- Inner JOIN commodityinstruments on commodityinstruments.ID = indices.ID 
+Inner JOIN commodityinstruments on commodityinstruments.ID = indices.ID 
  
+Inner JOIN governmentbonds on governmentbonds.ID = indices.ID 
 
- Inner JOIN governmentbonds on governmentbonds.ID = indices.ID 
- 
+Inner JOIN iseqlagged on iseqlagged.ID = indices.ID
 
- Inner JOIN irishequityinstruments on irishequityinstruments.ID = indices.ID 
- 
-
- Inner JOIN iseqlagged on iseqlagged.ID = indices.ID 
- 
-
- ; 
+;
