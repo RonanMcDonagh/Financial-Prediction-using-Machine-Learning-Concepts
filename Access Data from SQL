@@ -1,0 +1,6 @@
+import sqlite3
+conn = sqlite3.connect('FinancialInstrumentDatabase')
+c = conn.cursor()
+c.execute("SELECT * FROM indices")
+r = c.fetchone()
+print(r)
