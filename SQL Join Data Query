@@ -1,6 +1,6 @@
 SELECT  
 
-main.irishequityinstruments.date
+main.irishequityinstruments.date as Date,
 
 CRH_ID_Equity, 
 KYG_ID_Equity, 
