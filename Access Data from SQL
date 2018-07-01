@@ -1,4 +1,7 @@
 import sqlite3
+import math
+import pandas as pd
+
 con = sqlite3.connect('TradeData.db')
 c = con.cursor()
 
@@ -440,5 +443,5 @@ Inner JOIN iseqlagged on iseqlagged.ID = indices.ID
 """)
 
          
-r = c.fetchone()
-print(r)
+data = c.fetchall()
+print(data)
