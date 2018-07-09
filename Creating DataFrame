@@ -12,7 +12,7 @@ query = """
     
 SELECT  
 
-main.irishequityinstruments.date Date,
+SUBSTR(main.irishequityinstruments.date, 1, 10) Date,
 
 CRH_ID_Equity, 
 KYG_ID_Equity, 
