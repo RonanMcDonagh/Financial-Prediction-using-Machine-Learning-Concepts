@@ -10,7 +10,7 @@ def slugify(text, lower=1):
     text = re.sub(r'[- ]+', '_', text)
     return text
 
-con = sqlite3.connect('TradeData.db')
+conn = sqlite3.connect('TradeDataDB.db')
 
 wb = load_workbook(filename=r'C:\Users\ronan\OneDrive\Documents\Ronan Thesis\FinancialInstrumentData.xlsx')
 
@@ -26,7 +26,7 @@ for sheet in sheets:
         columns.append(slugify(row.value))
     query += ');'
 
-    con.execute(query)
+    conn.execute(query)
 
     tup = []
     for i, rows in enumerate(ws):
@@ -47,7 +47,7 @@ for sheet in sheets:
     insQuery2 = insQuery2[:-2] + ')'
     insQuery = insQuery1 + insQuery2
 
-    con.executemany(insQuery, tup)
-    con.commit()
+    conn.executemany(insQuery, tup)
+    conn.commit()
 
 con.close()
