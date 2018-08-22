@@ -6,19 +6,16 @@ Created on Thu Jul  5 13:29:07 2018
 """
 
 import sqlite3
-import math
-import numpy as np
 import pandas as pd
-from sklearn import preprocessing, cross_validation, svm
-from sklearn.linear_model import LinearRegression
 
-conn = sqlite3.connect('TradeData.db')
+
+conn = sqlite3.connect('TradeDataDB.db')
 
 query = """
     
 SELECT  
 
-main.irishequityinstruments.date Date,
+main.irish_equity_instruments.dates Date,
 
 --Equities
 CRH_ID_Equity, 
@@ -38,80 +35,80 @@ GRN_ID_Equity,
 
 
 --Money Market Instruments
-GIGB3M_Index
-GUKG3M_Index
-GUKG6M_Index
-GECU3M_Index
-GECU6M_Index
-USGG1M_Index
-USGG3M_Index
-USGG6M_Index
+GIGB3M_Index,
+GUKG3M_Index,
+GUKG6M_Index,
+GECU3M_Index,
+GECU6M_Index,
+USGG1M_Index,
+USGG3M_Index,
+USGG6M_Index,
 
 
 
 --Debt Instruments
-GIGB1YR_Index
-GIGB2YR_Index
-GIGB3YR_Index
-GIGB4YR_Index
-GIGB5YR_Index
-GIGB6YR_Index
-GIGB7YR_Index
-GIGB8YR_Index
-GIGB9YR_Index
-GIGB10YR_Index
-GIGB15YR_Index
-GIGB30YR_Index
-GUKG1_Index
-GUKG2_Index
-GUKG3_Index
-GUKG4_Index
-GUKG5_Index
-GUKG6_Index
-GUKG7_Index
-GUKG8_Index
-GUKG10_Index
-GUKG15_Index
-GUKG20_Index
-GUKG30_Index
-GECU1YR_Index
-GECU2YR_Index
-GECU3YR_Index
-GECU4YR_Index
-GECU5YR_Index
-GECU6YR_Index
-GECU7YR_Index
-GECU8YR_Index
-GECU9YR_Index
-GECU10YR_Index
-GECU15YR_Index
-GECU20YR_Index
-GECU30YR_Index
-USGG12M_Index
-USGG2YR_Index
-USGG3YR_Index
-USGG5YR_Index
-USGG7YR_Index
-USGG10YR_Index
-USGG30YR_Index
+GIGB1YR_Index,
+GIGB2YR_Index,
+GIGB3YR_Index,
+GIGB4YR_Index,
+GIGB5YR_Index,
+GIGB6YR_Index,
+GIGB7YR_Index,
+GIGB8YR_Index,
+GIGB9YR_Index,
+GIGB10YR_Index,
+GIGB15YR_Index,
+GIGB30YR_Index,
+GUKG1_Index,
+GUKG2_Index,
+GUKG3_Index,
+GUKG4_Index,
+GUKG5_Index,
+GUKG6_Index,
+GUKG7_Index,
+GUKG8_Index,
+GUKG10_Index,
+GUKG15_Index,
+GUKG20_Index,
+GUKG30_Index,
+GECU1YR_Index,
+GECU2YR_Index,
+GECU3YR_Index,
+GECU4YR_Index,
+GECU5YR_Index,
+GECU6YR_Index,
+GECU7YR_Index,
+GECU8YR_Index,
+GECU9YR_Index,
+GECU10YR_Index,
+GECU15YR_Index,
+GECU20YR_Index,
+GECU30YR_Index,
+USGG12M_Index,
+USGG2YR_Index,
+USGG3YR_Index,
+USGG5YR_Index,
+USGG7YR_Index,
+USGG10YR_Index,
+USGG30YR_Index,
 
 
 --Indices
-SPX_Index
-UKX_Index
-CAC_Index
-DAX_Index
-NKY_Index
-INDU_Index
-SX5E_Index
-FTSEMIB_Index
+SPX_Index,
+UKX_Index,
+CAC_Index,
+DAX_Index,
+NKY_Index,
+INDU_Index,
+SX5E_Index,
+FTSEMIB_Index,
 
 
 
 --Commodity
 CL1_Comdty, 
 NG1_Comdty, 
-W_1__Comdty, 
+W_1_Comdty, 
 GC1_Comdty, 
 
 
@@ -141,20 +138,24 @@ ISEQ_Index
 FROM  main.indices 
  
 
-Inner JOIN currencyinstruments on currencyinstruments.ID = indices.ID 
+Inner JOIN currency_instruments on currency_instruments.ID = indices.ID 
 
-Inner JOIN irishequityinstruments on irishequityinstruments.ID = indices.ID
+Inner JOIN debt_instruments on debt_instruments.ID = indices.ID 
 
-Inner JOIN commodityinstruments on commodityinstruments.ID = indices.ID 
+Inner JOIN irish_equity_instruments on irish_equity_instruments.ID = indices.ID
+
+Inner JOIN commodity_instruments on commodity_instruments.ID = indices.ID 
  
-Inner JOIN governmentbonds on governmentbonds.ID = indices.ID 
+Inner JOIN money_market_instruments on money_market_instruments.ID = indices.ID 
 
-Inner JOIN iseqlagged on iseqlagged.ID = indices.ID 
+Inner JOIN iseq_lagged on iseq_lagged.ID = indices.ID 
 
-Inner JOIN outputvariable on outputvariable.ID = indices.ID 
+Inner JOIN iseq on iseq.ID = indices.ID 
 
 """
 
 df = pd.read_sql_query(query, conn)
 
-print(df)
+df.set_index('Date', inplace=True)
+
+print(df.head())
