@@ -50,4 +50,5 @@ for sheet in sheets:
     conn.executemany(insQuery, tup)
     conn.commit()
 
-con.close()
+conn.close()
+
