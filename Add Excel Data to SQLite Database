@@ -12,7 +12,7 @@ def slugify(text, lower=1):
 
 conn = sqlite3.connect('TradeDataDB.db')
 
-wb = load_workbook(filename=r'C:\Users\ronan\OneDrive\Documents\Ronan Thesis\FinancialInstrumentData.xlsx')
+wb = load_workbook(filename=r'C:\Users\blpuk\RT\Price_Data.xlsx')
 
 sheets = wb.get_sheet_names()
 
